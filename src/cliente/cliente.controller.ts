@@ -1,33 +1,38 @@
 import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
 import { ClientService } from './cliente.service';
-import { Cliente } from '../db/entities/clientes.entity';
+import { ClientesEntity } from 'src/db/entities/clientes.entity';
 
 @Controller('clients')
 export class ClientController {
   constructor(private readonly clientService: ClientService) {}
 
   @Get()
-  findAll(): Promise<Cliente[]> {
+  findAll(): Promise<ClientesEntity[]> {
     return this.clientService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<Cliente> {
+  findOne(@Param('id') id: string): Promise<ClientesEntity> {
     return this.clientService.findOne(+id);
   }
 
+  @Get('find-by-ids')
+  async findByIds(@Body('ids') ids: string[]): Promise<ClientesEntity[]> {
+    return this.clientService.findByIds(ids);
+  }
+
   @Post()
-  create(@Body() client: Cliente): Promise<Cliente> {
+  create(@Body() client: ClientesEntity): Promise<ClientesEntity> {
     return this.clientService.create(client);
   }
 
-  @Put(':id')
-  update(@Param('id') id: string, @Body() client: Cliente): Promise<void> {
-    return this.clientService.update(+id, client);
+  @Put('/:id')
+  update(@Param() params: ClientesEntity, @Body() cliente: ClientesEntity): Promise<void> {
+    return this.clientService.update(params.id, cliente);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string): Promise<void> {
-    return this.clientService.remove(+id);
+  @Delete('/:id')
+  remove(@Param() params: ClientesEntity): Promise<void> {
+    return this.clientService.remove(params.id);
   }
 }

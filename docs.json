@@ -1,0 +1,221 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Client API",
+    "description": "API for managing clients",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/clients": {
+      "get": {
+        "summary": "Retorna todos os clientes",
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de clientes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ClientesEntity"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Cria um novo cliente",
+        "parameters": [
+          {
+            "name": "nome",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "Cliente 1"
+          },
+          {
+            "name": "salario",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "1000"
+          },
+          {
+            "name": "empresa",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "100000"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientesEntity"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Cliente criado com seu id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientesEntity"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clients/{id}": {
+      "get": {
+        "summary": "Retorna uma cliente pelo id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cliente referente ao id se encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientesEntity"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update cliente",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientesEntity"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Client alterado com sucesso"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete um cliente pelo id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Cliente deletado com sucesso!"
+          }
+        }
+      }
+    },
+    "/clients/find-by-ids": {
+      "post": {
+        "summary": "Retorna os clientes com base nos ids passados",
+        "parameters": [
+          {
+            "name": "ids",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array"
+            },
+            "example": ["51dad4d6-f4f6-40ef-b845-6f47fea8b211", "51dad4d6-f4f6-40ef-b845-6f47fea8b211", "51dad4d6-f4f6-40ef-b845-6f47fea8b211"]
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Uma lista de ids",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ClientesEntity"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ClientesEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "salario": {
+            "type": "string"
+          },
+          "empresa": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
